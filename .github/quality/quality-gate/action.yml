@@ -1,12 +1,6 @@
 name: SonarQube - Quality Gate
 description: Check the quality gate status of a SonarQube project
 inputs:
-  sonarqube_url:
-    description: "URL of the SonarQube server"
-    required: true
-  sonarqube_project_key:
-    description: "Project key of the SonarQube project"
-    required: true
   sonarqube_token:
     description: "Token for authenticating with the SonarQube server"
     required: true
