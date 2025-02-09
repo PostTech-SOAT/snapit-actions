@@ -1,21 +1,5 @@
-name: "CD - API Hexburger"
-description: "Publicar artefato da API Hexburger no ECR"
-inputs:
-  aws_access_key_id:
-    description: "ID da chave de acesso da AWS"
-    required: true
-  aws_secret_access_key:
-    description: "Chave de acesso secreta da AWS"
-    required: true
-  aws_session_token:
-    description: "Token de sessão da AWS"
-    required: true
-  aws_region:
-    description: "Região da AWS"
-    required: true
-  aws_account_id:
-    description: "ID da conta da AWS"
-    required: true
+name: "CD - API"
+description: "Publicar artefato da API no ECR"
 
 runs:
   using: composite
@@ -26,10 +10,10 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
-        aws-session-token: ${{ inputs.AWS_SESSION_TOKEN }}
-        aws-region: ${{ inputs.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Set up JDK 21
       uses: actions/setup-java@v4
@@ -37,7 +21,7 @@ runs:
         java-version: "21"
         distribution: "temurin"
 
-    - name: Build Hexburguer Jar
+    - name: Build Java Jar
       shell: bash
       run: |
         mvn package -DskipTests
@@ -52,7 +36,7 @@ runs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
       with:
-        registries: ${{ inputs.AWS_ACCOUNT_ID }}
+        registries: ${{ secrets.AWS_ACCOUNT_ID }}
     - name: Build, tag, and push image to Amazon ECR.
       id: build-publish
       shell: bash
