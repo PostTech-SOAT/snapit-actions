@@ -1,5 +1,21 @@
 name: "CD - API"
 description: "Publicar artefato da API no ECR"
+inputs:
+  AWS_ACCESS_KEY_ID:
+    description: "ID da chave de acesso da AWS"
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: "Chave de acesso secreta da AWS"
+    required: true
+  AWS_SESSION_TOKEN:
+    description: "Token de sessão da AWS"
+    required: true
+  AWS_REGION:
+    description: "Região da AWS"
+    required: true
+  AWS_ACCOUNT_ID:
+    description: "ID da conta da AWS"
+    required: true
 
 runs:
   using: composite
