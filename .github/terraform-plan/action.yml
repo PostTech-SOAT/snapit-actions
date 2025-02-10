@@ -33,10 +33,10 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ inputs.AWS_SESSION_TOKEN }}
+        aws-region: ${{ inputs.AWS_REGION }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
@@ -56,7 +56,7 @@ runs:
     - name: Setup EKS environment
       shell: bash
       run: |
-        aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ inputs.eks_cluster_name }}
+        aws eks --region ${{ inputs.AWS_REGION }} update-kubeconfig --name ${{ inputs.eks_cluster_name }}
 
     - name: Terraform Init
       id: init
@@ -71,10 +71,10 @@ runs:
       shell: bash
       run: |
 
-        export TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        export TF_VAR_AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-        export TF_VAR_AWS_REGION=${{ secrets.AWS_REGION }}
+        export TF_VAR_AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }}
+        export TF_VAR_AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }}
+        export TF_VAR_AWS_SESSION_TOKEN=${{ inputs.AWS_SESSION_TOKEN }}
+        export TF_VAR_AWS_REGION=${{ inputs.AWS_REGION }}
 
 
         terragrunt plan --terragrunt-non-interactive --terragrunt-config ./terragrunt/${{ inputs.tfvars_file_name }}
